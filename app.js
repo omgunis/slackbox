@@ -79,7 +79,7 @@ app.post('/store', function(req, res) {
       if(text === 'list tracks'){
         spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
           .then(function(data) {
-            var message = 'Current tracks: ' + data.body;
+            var message = 'Current tracks: ' + req.body;
             return slack (res, message);
           }, function(err) {
             return slack(res, err.message);
