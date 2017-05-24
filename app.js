@@ -61,78 +61,70 @@ app.use('/store', function(req, res, next) {
 app.post('/store', function(req, res) {
   spotifyApi.refreshAccessToken()
     .then(function(data) {
-      spotifyApi.setAccessToken(data.body['access_token']);
-      if (data.body['refresh_token']) {
-        spotifyApi.setRefreshToken(data.body['refresh_token']);
-      }
-      if (req.body.text.trim().length === 0) {
-          return res.send('Enter the name of the artist and the song, separated by a "-"\nExample: Eiffel 65 - Blue (Da Ba Dee)');
-      }
-      var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
-      if(text === 'help'){
-          return slack (res,
-            'Here\'s what I can help you with: \n' +
-            '>`/djbot artist - song` - adds the song to playlist \n' +
+        spotifyApi.setAccessToken(data.body['access_token']);
+        if (data.body['refresh_token']) {
+          spotifyApi.setRefreshToken(data.body['refresh_token']);
+        }
+        if (req.body.text.trim().length === 0) {
+            return res.send('Enter the name of the artist and the song, separated by a "-"\nExample: Eiffel 65 - Blue (Da Ba Dee)');
+        }
+        var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
+        if(text === 'help'){
+            return slack (res,
+              'Here\'s what I can help you with: \n' +
+              '>`/djbot artist - song` - adds the song to playlist \n' +
             '>`/djbot help` - lists commands'
           )
-      }
-      else if(text === 'listtracks'){
-        return slack(res, 'Current tracks: ')
-        // spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
-        //   .then(function(data) {
-        //     var message = 'Current tracks: ' + data.body;
-        //     return slack (res, message);
-        //   }, function(err) {
-        //     return slack(res, err.message);
-        //   });
-      }
-      else if(text.indexOf(' - ') === -1) {
-        var query = 'track:' + text;
-      }
-      else {
-        var pieces = text.split(' - ');
-        var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
-      }
-      spotifyApi.searchTracks(query)
-        .then(function(data) {
-          var results = data.body.tracks.items;
-          if (results.length === 0) {
-            return slack(res, 'Could not find that track.');
-          }
-          var track = results[0];
-          spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:' + track.id],
-            {
-              position : -1
-            })
-            .then(function(data) {
-              var message = {
-                text: 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*',
-                attachments: [{
-                  image_url: track.album.images[1].url
-                }]
-              };
-              return slack(res, message);
-            }, function(err) {
-              return slack(res, err.message);
-            });
-        },
-      function(err) {
-        return slack(res, err.message);
-      });
-    },
+        }
+        else if(text === 'listtracks'){
+          var message = 'Current tracks: ';
+          return slack(res, message);
+          // spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
+          //   .then(function(data) {
+          //     var message = 'Current tracks: ' + data.body;
+          //     return slack (res, message);
+          //   }, function(err) {
+          //     return slack(res, err.message);
+          //   });
+        }
+        else if(text.indexOf(' - ') === -1) {
+          var query = 'track:' + text;
+        }
+        else {
+          var pieces = text.split(' - ');
+          var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
+        }
+        spotifyApi.searchTracks(query)
+          .then(function(data) {
+            var results = data.body.tracks.items;
+            if (results.length === 0) {
+              return slack(res, 'Could not find that track.');
+            }
+            var track = results[0];
+            spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:' + track.id],
+              {
+                position : -1
+              })
+              .then(function(data) {
+                var message = {
+                  text: 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*',
+                  attachments: [{
+                    image_url: track.album.images[1].url
+                  }]
+                };
+                return slack(res, message);
+              }, function(err) {
+                return slack(res, err.message);
+              });
+          },
+          function(err) {
+            return slack(res, err.message);
+          });
+      },
     function(err) {
       return slack(res, 'Could not refresh access token. You probably need to re-authorise yourself from your app\'s homepage.');
     });
 });
-// if(text === 'list tracks'){
-//   spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
-//     .then(function(data) {
-//       var message = 'Current tracks: ' + data.body;
-//       return slack (res, message);
-//     }, function(err) {
-//       return slack(res, err.message);
-//     });
-// }
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'));
