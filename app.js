@@ -78,7 +78,13 @@ app.post('/store', function(req, res) {
         }
         else if(text === 'listtracks'){
           var message = 'Current tracks: ';
-          return slack(res, message);
+          spotifyApi.getPlaylistTracks(process.env.SPOTIFY_USERNAME,  process.env.SPOTIFY_PLAYLIST_ID, { 'offset' : 1, 'limit' : 5, 'fields' : 'items' })
+            .then(function(data) {
+              return slack(res, message + data.body);
+            }, function(err) {
+              return slack(res, err.message);
+            });
+
           // spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
           //   .then(function(data) {
           //     var message = 'Current tracks: ' + data.body;
