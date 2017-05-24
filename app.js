@@ -71,10 +71,15 @@ app.post('/store', function(req, res) {
       var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
       if(text === 'help'){
           return slack (res,
-            'Hey *@user*! Here\'s what I can help you with: \n' +
+            'Here\'s what I can help you with: \n' +
             '>`/djbot artist - song` - adds the song to playlist \n' +
             '>`/djbot help` - lists commands'
           )
+      }
+      if(text === 'list tracks'){
+        return slack (res,
+          'Current playlist: \n'
+        )
       }
       else if(text.indexOf(' - ') === -1) {
         var query = 'track:' + text;
