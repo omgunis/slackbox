@@ -80,7 +80,7 @@ app.post('/store', function(req, res) {
           var message = 'Current tracks: ';
           spotifyApi.getPlaylistTracks(process.env.SPOTIFY_USERNAME,  process.env.SPOTIFY_PLAYLIST_ID, { 'offset' : 1, 'limit' : 5, 'fields' : 'items' })
             .then(function(data) {
-              return slack(res, message + data.body);
+              return slack(res, message + JSON.stringify(data.body, 4));
             }, function(err) {
               return slack(res, err.message);
             });
