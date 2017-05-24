@@ -77,9 +77,13 @@ app.post('/store', function(req, res) {
           )
       }
       if(text === 'list tracks'){
-        return slack (res,
-          'Current playlist: \n'
-        )
+        spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
+          .then(function(data) {
+            var message = 'Current tracks: ' + data.body
+            return slack (res, message)
+          }, function(err) {
+            return slack(res, err.message);
+          });
       }
       else if(text.indexOf(' - ') === -1) {
         var query = 'track:' + text;
