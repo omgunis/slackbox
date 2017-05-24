@@ -87,7 +87,12 @@ app.post('/store', function(req, res) {
               position : -1
             })
             .then(function(data) {
-              var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*'
+              var message = {
+                text: 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*',
+                attachments: [{
+                  image_url: 'http://placehold.it/512x512'
+                }]
+              };
               return slack(res, message);
             }, function(err) {
               return slack(res, err.message);
