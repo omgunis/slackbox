@@ -69,9 +69,13 @@ app.post('/store', function(req, res) {
           return res.send('Enter the name of the artist and the song, separated by a "-"\nExample: Eiffel 65 - Blue (Da Ba Dee)');
       }
       var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
-      if(text.indexOf(' - ') === -1) {
+      if(text === 'help'){
+          return slack (res, 'Hey Eunice! Here\'s what I can help you with: ')
+      }
+      else if(text.indexOf(' - ') === -1) {
         var query = 'track:' + text;
-      } else {
+      }
+      else {
         var pieces = text.split(' - ');
         var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
       }
@@ -88,7 +92,7 @@ app.post('/store', function(req, res) {
             })
             .then(function(data) {
               var message = {
-                text: 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*',
+                text: 'Track added!!' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*',
                 attachments: [{
                   image_url: track.album.images[1].url
                 }]
