@@ -99,8 +99,7 @@ app.post('/store', function(req, res) {
         else {
           var pieces = text.split(' - ');
           var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
-        }
-        spotifyApi.searchTracks(query)
+          spotifyApi.searchTracks(query)
           .then(function(data) {
             var results = data.body.tracks.items;
             if (results.length === 0) {
@@ -108,24 +107,25 @@ app.post('/store', function(req, res) {
             }
             var track = results[0];
             spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:' + track.id],
-              {
-                position : -1
-              })
-              .then(function(data) {
-                var message = {
-                  text: 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*',
-                  attachments: [{
-                    image_url: track.album.images[1].url
-                  }]
-                };
-                return slack(res, message);
-              }, function(err) {
-                return slack(res, err.message);
-              });
+            {
+              position : -1
+            })
+            .then(function(data) {
+              var message = {
+                text: 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*',
+                attachments: [{
+                  image_url: track.album.images[1].url
+                }]
+              };
+              return slack(res, message);
+            }, function(err) {
+              return slack(res, err.message);
+            });
           },
           function(err) {
             return slack(res, err.message);
           });
+        }
       },
     function(err) {
       return slack(res, 'Could not refresh access token. You probably need to re-authorise yourself from your app\'s homepage.');
