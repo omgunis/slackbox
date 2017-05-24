@@ -71,7 +71,7 @@ app.post('/store', function(req, res) {
       var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
       if(text === 'help'){
           return slack (res,
-            'Hey *Eunice*! Here\'s what I can help you with: \n' +
+            'Hey *@user*! Here\'s what I can help you with: \n' +
             '>`/djbot artist - song` - adds the song to playlist \n' +
             '>`/djbot help` - lists commands'
           )
