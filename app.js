@@ -124,15 +124,15 @@ app.post('/store', function(req, res) {
       return slack(res, 'Could not refresh access token. You probably need to re-authorise yourself from your app\'s homepage.');
     });
 });
-if(text === 'list tracks'){
-  spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
-    .then(function(data) {
-      var message = 'Current tracks: ' + data.body;
-      return slack (res, message);
-    }, function(err) {
-      return slack(res, err.message);
-    });
-}
+// if(text === 'list tracks'){
+//   spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
+//     .then(function(data) {
+//       var message = 'Current tracks: ' + data.body;
+//       return slack (res, message);
+//     }, function(err) {
+//       return slack(res, err.message);
+//     });
+// }
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'));
