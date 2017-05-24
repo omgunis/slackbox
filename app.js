@@ -76,10 +76,9 @@ app.post('/store', function(req, res) {
             '>`/djbot help` - lists commands'
           )
       }
-      if(text === 'list tracks'){
+      else if(text === 'list tracks'){
         spotifyApi.getPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID)
           .then(function(data) {
-            console.log(data);
             var message = 'Current tracks: ' + data.body;
             return slack (res, message);
           }, function(err) {
