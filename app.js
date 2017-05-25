@@ -87,7 +87,16 @@ app.post('/store', function(req, res) {
                 'data.body.items[2].track.artists[0].name: ' + data.body.items[2].track.artists[0].name +
                 ' - data.body.items[2].track.name: ' + data.body.items[2].track.name;
               var tracks = '';
-              for (var i=0; i < data.body.items.length: i++){
+              // Object.size = function(obj) {
+              //     var size = 0, key;
+              //     for (key in obj) {
+              //         if (obj.hasOwnProperty(key)) size++;
+              //     }
+              //     return size;
+              // };
+              //
+              // var size = Object.size(data.body.items);
+              for (var i=0; i < data.body.items.length; i++){
                 tracks += data.body.items[i].track.artists[0].name;
               }
 
