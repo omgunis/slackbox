@@ -88,7 +88,7 @@ app.post('/store', function(req, res) {
                 ' - data.body.items[2].track.name: ' + data.body.items[2].track.name;
               var tracks = '';
               for (var i=0; i < data.body.items.length; i++){
-                tracks += ( data.body.items[i].track.artists[0].name + ' - ' + data.body.items[i].track.name);
+                tracks += ( data.body.items[i].track.artists[0].name + ' - ' + data.body.items[i].track.name + '\n');
               }
 
               return slack(res, tracks);
