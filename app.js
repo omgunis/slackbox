@@ -83,11 +83,9 @@ app.post('/store', function(req, res) {
                 'data.body.items[0].track.artists[0].name: ' + data.body.items[0].track.artists[0].name +
                 ' - data.body.items[0].track.name ' + data.body.items[0].track.name + '\n' +
                 ' data.body.items[1].track.artists[0].name: ' + data.body.items[1].track.artists[0].name +
-                ' - data.body.items[0].track.name: ' + data.body.items[1].track.name + '\n' +
+                ' - data.body.items[1].track.name: ' + data.body.items[1].track.name + '\n' +
                 'data.body.items[2].track.artists[0].name: ' + data.body.items[2].track.artists[0].name +
-                ' - data.body.items[0].track.name: ' + data.body.items[2].track.name + '\n' +
-                'data.body.items[2].track.artists[0].name: ' + data.body.items[3].track.artists[0].name +
-                ' - data.body.items[0].track.name: ' + data.body.items[3].track.name;
+                ' - data.body.items[2].track.name: ' + data.body.items[2].track.name;
               // var items = data.body.items;
               // for (var key in items){
               //   if(items.hasOwnProperty(key)){
