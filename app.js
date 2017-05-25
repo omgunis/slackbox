@@ -79,8 +79,7 @@ app.post('/store', function(req, res) {
         else if(text === 'listtracks'){
           spotifyApi.getPlaylistTracks(process.env.SPOTIFY_USERNAME,  process.env.SPOTIFY_PLAYLIST_ID, { 'offset' : 1, 'limit' : 5, 'fields' : 'items' })
             .then(function(data) {
-              var results = data.body.items[0];
-              var message = 'results.track.artists.name  ' + results.track.artists.name + 'results.track.name ' + results.track.name;
+              var message = 'data.body.items[0].track.artists[0].name  ' + data.body.items[0].track.artists[0].name + 'data.body.items[0].track.name ' + data.body.items[0].track.name;
               return slack(res, message);
             }, function(err) {
               return slack(res, err.message);
