@@ -82,9 +82,9 @@ app.post('/store', function(req, res) {
               var message =
                 'data.body.items[0].track.artists[0].name \n' + data.body.items[0].track.artists[0].name +
                 ' - *data.body.items[0].track.name* \n' + data.body.items[0].track.name +
-                ' data.body.items[0].track.artists[1].name \n' + data.body.items[0].track.artists[1].name +
+                ' data.body.items[1].track.artists[0].name \n' + data.body.items[1].track.artists[0].name +
                 ' - *data.body.items[0].track.name* \n' + data.body.items[0].track.name +
-                'data.body.items[0].track.artists[2].name \n' + data.body.items[0].track.artists[2].name +
+                'data.body.items[0].track.artists[0].name \n' + data.body.items[0].track.artists[0].name +
                 ' - *data.body.items[0].track.name* \n' + data.body.items[0].track.name;
               // var items = data.body.items;
               // for (var key in items){
