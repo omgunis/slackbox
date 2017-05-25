@@ -79,13 +79,13 @@ app.post('/store', function(req, res) {
         else if(text === 'listtracks'){
           spotifyApi.getPlaylistTracks(process.env.SPOTIFY_USERNAME,  process.env.SPOTIFY_PLAYLIST_ID, { 'offset' : 1, 'limit' : 5, 'fields' : 'items' })
             .then(function(data) {
-              var message =
-                'data.body.items[0].track.artists[0].name \n' + data.body.items[0].track.artists[0].name +
-                ' - *data.body.items[0].track.name* \n' + data.body.items[0].track.name +
-                ' data.body.items[1].track.artists[0].name \n' + data.body.items[1].track.artists[0].name +
-                ' - *data.body.items[0].track.name* \n' + data.body.items[0].track.name +
-                'data.body.items[0].track.artists[0].name \n' + data.body.items[0].track.artists[0].name +
-                ' - *data.body.items[0].track.name* \n' + data.body.items[0].track.name;
+              var message = "DATA: " + data +
+                'data.body.items[0].track.artists[0].name: ' + data.body.items[0].track.artists[0].name + '\n' +
+                ' - data.body.items[0].track.name ' + data.body.items[0].track.name + '\n' +
+                ' data.body.items[1].track.artists[0].name: ' + data.body.items[1].track.artists[0].name + '\n' +
+                ' - data.body.items[0].track.name: ' + data.body.items[0].track.name + '\n' +
+                'data.body.items[2].track.artists[0].name: ' + data.body.items[2].track.artists[0].name + '\n' +
+                ' - data.body.items[0].track.name: ' + data.body.items[0].track.name;
               // var items = data.body.items;
               // for (var key in items){
               //   if(items.hasOwnProperty(key)){
