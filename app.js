@@ -80,8 +80,8 @@ app.post('/store', function(req, res) {
           spotifyApi.getPlaylistTracks(process.env.SPOTIFY_USERNAME,  process.env.SPOTIFY_PLAYLIST_ID, { 'offset' : 1, 'limit' : 5, 'fields' : 'items' })
             .then(function(data) {
               var message = 'data.body.items[0].track.artists[0].name' + data.body.items[0].track.artists[0].name + ' - *data.body.items[0].track.name*' + data.body.items[0].track.name;
-              // var message2 = 'data.body.items[1].track.artists[0].name' + data.body.items[1].track.artists[0].name + ' - *' + 'data.body.items[1].track.name' + data.body.items[1].track.name + '*';
-              // var message3 = 'data.body.items[0].track.artists[1].name' + data.body.items[0].track.artists[1].name + ' - *' + 'data.body.items[1].track.name' + data.body.items[1].track.name + '*';
+              var message2 = 'data.body.items[1].track.artists[0].name' + data.body.items[1].track.artists[0].name + ' - *data.body.items[1].track.name*' + data.body.items[1].track.name;
+              var message3 = 'data.body.items[0].track.artists[1].name' + data.body.items[0].track.artists[1].name + ' - *data.body.items[1].track.name*' + data.body.items[1].track.name;
               // var items = data.body.items;
               // for (var key in items){
               //   if(items.hasOwnProperty(key)){
@@ -89,7 +89,8 @@ app.post('/store', function(req, res) {
               //     return slack(res, key + " --> " + items[key].track.artists[0].name);
               //   }
               // }
-              return slack(res, message);
+              var bigMessage = message + '\n' + message2 + '\n' + message3;
+              return slack(res, bigMessage);
             }, function(err) {
               return slack(res, err.message);
             });
